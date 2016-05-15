@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.smartcar.model.CarBasic" table="car_basic" schema="" catalog="smartcar">
+        <id name="carId" column="car_id"/>
+        <property name="baterryId" column="baterry_id"/>
+        <property name="vin" column="Vin"/>
+        <property name="releaseDate" column="release_date"/>
+        <property name="liscenceDate" column="liscence_date"/>
+    </class>
+</hibernate-mapping>

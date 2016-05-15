@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.smartcar.model.Battery" table="battery" schema="" catalog="smartcar">
+        <id name="baterryId" column="baterry_id"/>
+        <property name="supplier" column="supplier"/>
+        <property name="parameters" column="parameters"/>
+        <property name="cratedate" column="cratedate"/>
+        <property name="status" column="status"/>
+        <property name="ampere" column="ampere"/>
+        <property name="volt" column="volt"/>
+    </class>
+</hibernate-mapping>

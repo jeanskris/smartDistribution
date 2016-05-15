@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.smartcar.model.SensorList" table="sensor_list" schema="" catalog="smartcar">
+        <id name="id" column="id"/>
+        <property name="carId" column="car_id"/>
+        <property name="sensorId" column="sensor_id"/>
+        <property name="data" column="data"/>
+        <property name="type" column="type"/>
+        <property name="status" column="status"/>
+        <property name="updateTime" column="update_time"/>
+        <property name="supplier" column="supplier"/>
+    </class>
+</hibernate-mapping>
