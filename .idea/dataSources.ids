@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - smartcar@localhost" uuid="d4d77b28-94f6-400f-94cc-19026aa2b643">
+    <database-info product="MySQL" version="5.6.26-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="smartcar"/>
+    <table name="battery" schema="" catalog="smartcar" type="TABLE">
+      <column name="baterry_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="supplier" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="parameters" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="cratedate" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="status" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="ampere" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="volt" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="baterry_id"/>
+      <exported-key name="fk_car_basic_battery1" table="car_basic" schema="" catalog="smartcar" columns="baterry_id"/>
+    </table>
+    <table name="car_basic" schema="" catalog="smartcar" type="TABLE">
+      <column name="car_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="baterry_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="Vin" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="release_date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <column name="liscence_date" sqlType="DATE" precision="10" scale="0" nullable="true" jdbcType="91"/>
+      <primary-key name="PRIMARY" columns="car_id"/>
+      <foreign-key name="fk_car_basic_battery1" columns="baterry_id" ref-table="battery" ref-schema="" ref-catalog="smartcar" ref-columns="baterry_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="fk_car_info_car_basic1" table="car_info" schema="" catalog="smartcar" columns="car_id"/>
+      <exported-key name="fk_sensor_list_car_basic1" table="sensor_list" schema="" catalog="smartcar" columns="car_id"/>
+      <index name="fk_car_basic_battery1_idx" unique="false" columns="baterry_id"/>
+    </table>
+    <table name="car_info" schema="" catalog="smartcar" type="TABLE">
+      <column name="car_info_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="car_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="GPS_longitude" sqlType="DOUBLE" precision="22" scale="0" nullable="true" jdbcType="8"/>
+      <column name="GPS_lattude" sqlType="DOUBLE" precision="22" scale="0" nullable="true" jdbcType="8"/>
+      <column name="charge_times" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="power" sqlType="FLOAT" precision="12" scale="0" nullable="true" jdbcType="7"/>
+      <column name="total_miles" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="speed_current" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="status" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="update_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" remarks="ZHluYW5taWM="/>
+      <primary-key name="PRIMARY" columns="car_info_id"/>
+      <foreign-key name="fk_car_info_car_basic1" columns="car_id" ref-table="car_basic" ref-schema="" ref-catalog="smartcar" ref-columns="car_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="id_UNIQUE" unique="true" columns="car_info_id"/>
+      <index name="fk_car_info_car_basic1_idx" unique="false" columns="car_id"/>
+    </table>
+    <table name="sensor_class" schema="" catalog="smartcar" type="TABLE">
+      <column name="sensor_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sensor_name" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="basic_parameters" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <column name="supplier" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="sensor_id"/>
+      <exported-key name="fk_sensor_list_sensor_class1" table="sensor_list" schema="" catalog="smartcar" columns="sensor_id"/>
+    </table>
+    <table name="sensor_list" schema="" catalog="smartcar" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="car_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="sensor_id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="data" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12" remarks="anNvbiB2YXJjaGFy"/>
+      <column name="type" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12" remarks="bGFkYXIgCnRlbXByZXR1cmUKLi4uLg=="/>
+      <column name="status" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6"/>
+      <column name="update_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="supplier" sqlType="VARCHAR" precision="45" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="fk_sensor_list_car_basic1" columns="car_id" ref-table="car_basic" ref-schema="" ref-catalog="smartcar" ref-columns="car_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_sensor_list_sensor_class1" columns="sensor_id" ref-table="sensor_class" ref-schema="" ref-catalog="smartcar" ref-columns="sensor_id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="fk_sensor_list_car_basic1_idx" unique="false" columns="car_id"/>
+      <index name="fk_sensor_list_sensor_class1_idx" unique="false" columns="sensor_id"/>
+    </table>
+  </data-source>
+</component>

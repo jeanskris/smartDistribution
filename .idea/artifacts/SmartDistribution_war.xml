@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="SmartDistribution:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="smartcar.war">
+      <element id="artifact" artifact-name="SmartDistribution:war exploded" />
+    </root>
+  </artifact>
+</component>
