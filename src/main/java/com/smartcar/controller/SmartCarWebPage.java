@@ -63,6 +63,7 @@ public class SmartCarWebPage {
             carBasicInfoJson.setPower(carInfo.getPower());
             carBasicInfoJson.setStatus(carInfo.getStatus());
             listCarBasicInfoJson.add(carBasicInfoJson);
+            //
         }
         mv.addObject("listCarBasicInfo",listCarBasicInfoJson);
         return mv;
