@@ -1,0 +1,5 @@
+#忽略.idea文件
+.idea
+#忽略编译生成的文件
+target
+.idea/workspace.xml
