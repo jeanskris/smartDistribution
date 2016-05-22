@@ -45,6 +45,7 @@ $("#searchCarDiv").keydown(function(){
     }
 });
 
+//get data from server and show
 function updateInfo(){
     $.ajax("searchCar", {
         type: "GET",
