@@ -41,16 +41,19 @@ public class TestTCP {
 
         conn.setHandler(new MinaClientHandler());
         IoSession session = null;
-        try{
-            ConnectFuture future = conn.connect(new InetSocketAddress(HOST, PORT));
-            future.awaitUninterruptibly();
-            session = future.getSession();
-            byte[] bytes = {0x30,0x16, 0x01, 0x01, 0x64, 0x00, 0x00, 0x00, 0x00, (byte)0x89};
-            session.write(IoBuffer.wrap(bytes));
-            Thread.sleep(5000);
-
-        } catch (Exception e) {
-            System.out.println("异常:"+e.toString()+"\n details:"+ e.getCause().toString());
+        for(int i=0;i<20;i++) {
+            try {
+                ConnectFuture future = conn.connect(new InetSocketAddress(HOST, PORT));
+                future.awaitUninterruptibly();
+                session = future.getSession();
+                Byte power=(byte)i;
+                byte[] bytes = {0x30,power, 0x01, 0x01, 0x64, 0x00, 0x00, 0x00, 0x00, (byte) 0x89};
+                session.write(IoBuffer.wrap(bytes));
+                System.out.println("power sended:"+power);
+                Thread.sleep(10000);
+            } catch (Exception e) {
+                System.out.println("异常:" + e.toString() + "\n details:" + e.getCause().toString());
+            }
         }
         session.close();
         session.getCloseFuture().awaitUninterruptibly();
