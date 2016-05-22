@@ -29,30 +29,43 @@ function showInMap(carInfo){
 document.getElementById("chart").style.display="none";
 
 
+var interval;
 $("#searchCarDiv").keydown(function(){
     if(event.keyCode==13) {
        /* $('#searchPlace').submit();*/
-        $.ajax("searchCar", {
-            type:"GET",
-            dataType: "json",
-            data:{searchPlace:$("#searchPlaceID").val()},
-            success:function (data) {
-                var carInfo = eval(data);//parse json to object  ==val 解析json==
-                var json=JSON.stringify(data);
-                console.log(json);
-                $('#speedNow').html(carInfo.speedCurrent);
-                $('#battery').html(carInfo.power+'<b>/V</b>');
-                $('#chargeTimes').text(carInfo.chargeTimes);
-                showInMap(carInfo);
-            },
-            error:function(){
-                alert("error1");
-                console.log("error2");
-              /*  marker.center=[${carInfo.gpsLongitude},${carInfo.gpsLattude}];*/
-            }
 
-        });
+        //first time,show data immediately, then read data every 10s
+        setTimeout( updateInfo(),10000);
+        /*轮询读取函数*/
+        interval=setInterval(function() {
+                updateInfo();
+            },
+            10000);
+
 
     }
 });
 
+function updateInfo(){
+    $.ajax("searchCar", {
+        type: "GET",
+        dataType: "json",
+        data: {searchPlace: $("#searchPlaceID").val()},
+        success: function (data) {
+            var carInfo = eval(data);//parse json to object  ==val 解析json==
+            var json = JSON.stringify(data);
+            console.log(json);
+            $('#speedNow').html(carInfo.speedCurrent);
+            $('#battery').html(carInfo.power + '<b>/V</b>');
+            $('#chargeTimes').text(carInfo.chargeTimes);
+            showInMap(carInfo);
+        },
+        error: function () {
+            clearInterval(interval);//cannot get data, stop read
+            alert("error1");
+            console.log("error2");
+            /*  marker.center=[${carInfo.gpsLongitude},${carInfo.gpsLattude}];*/
+        }
+
+    });
+}
