@@ -36,7 +36,6 @@ $("#searchCarDiv").keydown(function(){
 
         //first time,show data immediately, then read data every 10s
         setTimeout( updateInfo(),10000);
-        /*轮询读取函数*/
         interval=setInterval(function() {
                 updateInfo();
             },
