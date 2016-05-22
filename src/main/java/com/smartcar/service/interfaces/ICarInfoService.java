@@ -12,4 +12,6 @@ public interface ICarInfoService {
     CarInfo findById(int id);
     List<CarInfo> findAll();
     List<CarInfo> findByProperty(String property,Object value);
+    void update(CarInfo... carInfos);
+    void   updatePower(byte[] buffer);
 }

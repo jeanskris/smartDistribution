@@ -7,13 +7,8 @@ import com.smartcar.service.impl.CarInfoServiceImpl;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**com
  * Created by ZJDX on 2016/4/13.
@@ -34,12 +29,17 @@ public class CarBasicInfo {
         Integer cid=id;
         System.out.println("id:"+id);
         CarBasic carBasic=carBasicService.findById(cid);
-        CarInfo carInfo=carInfoService.findById(carBasic.getCarId());
-        return carInfo;
+
+        List<CarInfo> carInfo=carInfoService.findByProperty("car_id", carBasic.getCarId());
+        /*CarInfo carInfo1=carInfoService.findById(cid);
+        System.out.println("searchCar:power"+carInfo1.getPower());*/
+        return carInfo.get(carInfo.size()-1);//返回最后一条，也就是最新的数据
     }
     @RequestMapping(value = "/addCar")
     public void addCar(@RequestParam(value="addCar", required=false) CarBasic carBasic){
         System.out.println("addCar");
 
     }
+
+
 }

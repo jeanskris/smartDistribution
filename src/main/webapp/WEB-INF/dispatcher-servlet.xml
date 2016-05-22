@@ -12,9 +12,8 @@
        <!--"http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd"-->
 
-       <!-- 把标记了@Controller注解的类转换为bean -->
-       <context:component-scan base-package="com.smartcar.controller"/>
-
+       <!-- 把标记了注解的类转换为bean -->
+       <context:component-scan base-package="com.smartcar"/>
        <!--再进行js、image、css等静态资源访问的相关配置，这样，SpringMVC才能访问网站内的静态资源：-->
        <!-- 静态资源(js、image等)的访问 -->
        <mvc:default-servlet-handler/>
@@ -29,5 +28,6 @@
               <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
               <property name="prefix" value="/WEB-INF/pages/"/>
               <property name="suffix" value=".jsp"/>
+           <property name="contentType" value="text/html;charset=UTF-8"/>
        </bean>
 </beans>

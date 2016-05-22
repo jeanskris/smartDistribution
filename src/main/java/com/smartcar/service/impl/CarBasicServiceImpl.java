@@ -15,12 +15,13 @@ import java.util.List;
 /**
  * Created by ZJDX on 2016/4/11.
  */
-@Service
+
+@Service("carBasicService")
 public class CarBasicServiceImpl implements ICarBasicService {
 
 
     @Autowired() @Qualifier("generalDao")
-    private GeneralDAOImpl generalDao;
+    GeneralDAOImpl generalDao;
     private Class clazz=CarBasic.class;
 
     public CarBasic findById(int id) {
@@ -29,21 +30,21 @@ public class CarBasicServiceImpl implements ICarBasicService {
     }
 
     public List<CarBasic> findByProperty(String property,Object value){
-        List<CarBasic> listCarBasic = (List<CarBasic>)generalDao.findByProperty(clazz,property,value);
+        List<CarBasic> listCarBasic = (List<CarBasic>)generalDao.findByProperty(clazz, property, value);
         return listCarBasic;
     }
     public List<CarBasic> findAll(){
         List<CarBasic> allCarBasic = (List<CarBasic>)generalDao.findAll(clazz);
         return allCarBasic;
     }
-    /*
-     * 这里要有事务注解，默认readOnly=true,不设置的话会报错。
-     * insert和update操作都要。
-     */
-    @Transactional(readOnly=false)
+
+
     public void add(CarBasic... carBasics)  {
             generalDao.save(carBasics);
     }
 
+    public void update(CarBasic... carBasics){
+        generalDao.update(carBasics);
+    }
 
 }

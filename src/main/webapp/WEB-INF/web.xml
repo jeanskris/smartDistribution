@@ -14,6 +14,13 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class>
+            org.springframework.web.util.Log4jConfigListener
+        </listener-class>
+    </listener>
+
+
     <!-- 如上配置是Spring集成Web环境的通用配置；
     一般用于加载除Web层的Bean（如DAO、Service等），以便于与其他任何Web框架集成。
 contextConfigLocation：表示用于加载Bean的配置文件；

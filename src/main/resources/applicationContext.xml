@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans.xsd ">
-    <!-- 开启事务管理注解
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd "
+      >
+  <!--   &lt;!&ndash;开启事务管理注解&ndash;&gt;
     <aop:aspectj-autoproxy />
     <tx:annotation-driven />-->
-  <!--  <bean id="generalDAO" class="com.smartcar.dao.GeneralDAOImpl"/>
-    <bean id="carBasicInfoJson" class="com.smartcar.model.response.CarBasicInfoJson">
-        <property name="generalDAO" value="com.smartcar.dao.GeneralDAOImpl"/>
-    </bean>-->
 
     <bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
        <!-- 数据源 -->
@@ -38,13 +41,8 @@
         <property name="acquireRetryAttempts" value="30"/>
         <property name="breakAfterAcquireFailure" value="true"/>
         <property name="testConnectionOnCheckout" value="false"/>
+
     </bean>
-   <!-- <bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-              <property name="url" value="jdbc:mysql://127.0.0.1:3306/smartcar" />
-              <property name="username" value="root"/>
-              <property name="password" value="wenqin" />
-       </bean>-->
        <!-- 配置sessionFactory -->
        <bean id="sessionFactory"
              class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -66,6 +64,7 @@
                             <!-- 会自动创表，但是不会自动创建数据库，所以要先手动创建数据库。 -->
                             <prop key="hibernate.hbm2ddl.auto">update</prop>
                             <prop key="hibernate.format_sql">true</prop>
+                      <prop key="hibernate.connection.autocommit">true</prop>
                       <prop key="hibernate.connection.url">jdbc:mysql://localhost:3306/smartcar</prop>
                       <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
                   </props>
@@ -73,26 +72,80 @@
            <property name="annotatedClasses">
                <list>
                    <value>com.smartcar.model.Battery</value>
+                   <value>com.smartcar.model.CarInfo</value>
+                   <value>com.smartcar.model.CarBasic</value>
                </list>
            </property>
-       </bean>
 
-       <!-- 用于注入到GeneralDao中 -->
-       <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
-              <property name="sessionFactory" ref="sessionFactory" />
        </bean>
 
     <!--my defined beans-->
-    <bean id="generalDao" class="com.smartcar.dao.GeneralDAOImpl"/>
+    <!--<bean id="generalDao" class="com.smartcar.dao.GeneralDAOImpl" />
     <bean id="carBasicService" class="com.smartcar.service.impl.CarBasicServiceImpl"/>
     <bean id="carInfoService" class="com.smartcar.service.impl.CarInfoServiceImpl"/>
     <bean id="batteryService" class="com.smartcar.service.impl.BatteryServiceImpl"/>
+-->
+    <!-- 配置事务管理 -->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
 
-       <!-- 配置事务管理 -->
-       <bean id="transactionManager"
-             class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-              <property name="sessionFactory" ref="sessionFactory" />
-       </bean>
+    <!-- 用于注入到GeneralDao中 -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate" >
+        <property name="sessionFactory" ref="sessionFactory" />
+        <!--<property name="checkWriteOperations" value="false"></property>-->
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
+    <!-- <aop:config>
+         <aop:advisor id="managerTx" advice-ref="txAdvice" pointcut="execution(* com.smartcar.service..*.*(..))"
+                      order="1"/>
+     </aop:config>-->
+   <!-- <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" read-only="true"/>
+            <tx:method name="save*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="update*" propagation="REQUIRED" read-only="false" />
+            <tx:method name="delete*" propagation="REQUIRED" read-only="false" />
+        </tx:attributes>
+    </tx:advice>-->
 
+    <!-- TCP -->
+    <!--此部分被 NioSocketAcceptor 隐式使用，无此则会报字符串无法转换成 InetSocketAddress -->
+    <bean id="customEditorConfigurer"
+          class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+        <property name="customEditors">
+            <map>
+                <entry key="java.net.SocketAddress"
+                       value="org.apache.mina.integration.beans.InetSocketAddressEditor" />
+            </map>
+        </property>
+    </bean>
+    <bean id="tcpServerHandler" class="com.smartcar.mina.TCPServerHandler"/>
+    <bean id="tcpAddress" class="com.smartcar.mina.ServerIpTCP"/>
 
+    <bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter"/>
+
+    <bean id="codecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
+        <constructor-arg>
+            <bean class="com.smartcar.mina.MyCodecFactory"/>
+        </constructor-arg>
+    </bean>
+
+    <bean id="filterChainBuilder"
+          class="org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder">
+        <property name="filters">
+            <map>
+                <entry key="loggingFilter" value-ref="loggingFilter"/>
+                <!--<entry key="codecFilter" value-ref="codecFilter"/>-->
+            </map>
+        </property>
+    </bean>
+    <bean id="TCPAcceptor" class="org.apache.mina.transport.socket.nio.NioSocketAcceptor"
+          init-method="bind" destroy-method="unbind">
+        <property name="defaultLocalAddress" ref="tcpAddress"/>
+        <property name="handler" ref="tcpServerHandler"/>
+        <property name="filterChainBuilder" ref="filterChainBuilder"/>
+        <property name="reuseAddress" value="true"/>
+    </bean>
 </beans>
