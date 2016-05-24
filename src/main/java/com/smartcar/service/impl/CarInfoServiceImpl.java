@@ -59,8 +59,10 @@ public class CarInfoServiceImpl implements ICarInfoService{
             CarInfo carInfo =generalDao.findById(CarInfo.class, id);
 
             if (carHandler.getCommandType() == 0x30) {
-                System.out.println("updateCarInfo Come here!,carInfo:"+carInfo.getPower());
+                System.out.println("updateCarInfo Come here!,carInfo:" + carInfo.getPower());
                 carInfo.setPower((float) data);
+                carInfo.setGpsLongitude(carInfo.getGpsLongitude() + (double) carHandler.getGpsLongitude());
+                carInfo.setGpsLattude(carInfo.getGpsLattude()+(double) carHandler.getGpsLattude());
                 generalDao.update(carInfo);
                 System.out.println("power:" + generalDao.findById(CarInfo.class, id).getPower());
             }
