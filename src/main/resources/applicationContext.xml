@@ -121,11 +121,13 @@
             </map>
         </property>
     </bean>
+    <!-- 业务处理逻辑 -->
     <bean id="tcpServerHandler" class="com.smartcar.mina.TCPServerHandler"/>
+    <!-- 监听端口 -->
     <bean id="tcpAddress" class="com.smartcar.mina.ServerIpTCP"/>
-
+    <!-- Mina自带日志过滤器 默认级别为debug -->
     <bean id="loggingFilter" class="org.apache.mina.filter.logging.LoggingFilter"/>
-
+    <!-- 累加数据包解码器：解断丢包、粘包问题 -->
     <bean id="codecFilter" class="org.apache.mina.filter.codec.ProtocolCodecFilter">
         <constructor-arg>
             <bean class="com.smartcar.mina.MyCodecFactory"/>
