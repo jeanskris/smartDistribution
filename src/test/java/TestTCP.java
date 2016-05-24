@@ -13,8 +13,9 @@ import java.net.InetSocketAddress;
 
 public class TestTCP {
 
-    private static String HOST = "10.214.143.78";
-    private static int PORT = 1111;
+//    private static String HOST = "114.215.144.107 ";
+    private static String HOST = "10.214.143.78 ";
+    private static int PORT = 5555;
     static public class MinaClientHandler extends IoHandlerAdapter {
         @Override
         public void sessionCreated(IoSession session) throws Exception {
@@ -47,7 +48,9 @@ public class TestTCP {
                 future.awaitUninterruptibly();
                 session = future.getSession();
                 Byte power=(byte)i;
-                byte[] bytes = {0x30,power, 0x01, 0x01, 0x64, 0x00, 0x00, 0x00, 0x00, (byte) 0x89};
+                byte[] GpsLattude=float2byte((float)0.01);//4 bytes
+                byte[] GpsLongitude=float2byte((float)0.01);
+                byte[] bytes = { 0x01, 0x64,0x30,power, GpsLattude[0],GpsLattude[1],GpsLattude[2],GpsLattude[3],  GpsLongitude[0],GpsLongitude[1],GpsLongitude[2],GpsLongitude[3]};
                 session.write(IoBuffer.wrap(bytes));
                 System.out.println("power sended:"+power);
                 Thread.sleep(10000);
@@ -59,5 +62,37 @@ public class TestTCP {
         session.getCloseFuture().awaitUninterruptibly();
         conn.dispose();
     }
+    /**
+     * 浮点转换为字节
+     *
+     * @param f
+     * @return
+     */
+    public static byte[] float2byte(float f) {
 
+        // 把float转换为byte[]
+        int fbit = Float.floatToIntBits(f);
+
+        byte[] b = new byte[4];
+        for (int i = 0; i < 4; i++) {
+            b[i] = (byte) (fbit >> (24 - i * 8));
+        }
+
+        // 翻转数组
+        int len = b.length;
+        // 建立一个与源数组元素类型相同的数组
+        byte[] dest = new byte[len];
+        // 为了防止修改源数组，将源数组拷贝一份副本
+        System.arraycopy(b, 0, dest, 0, len);
+        byte temp;
+        // 将顺位第i个与倒数第i个交换
+        for (int i = 0; i < len / 2; ++i) {
+            temp = dest[i];
+            dest[i] = dest[len - i - 1];
+            dest[len - i - 1] = temp;
+        }
+
+        return dest;
+
+    }
 }
