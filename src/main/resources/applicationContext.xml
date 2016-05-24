@@ -84,8 +84,7 @@
     <!--<bean id="generalDao" class="com.smartcar.dao.GeneralDAOImpl" />
     <bean id="carBasicService" class="com.smartcar.service.impl.CarBasicServiceImpl"/>
     <bean id="carInfoService" class="com.smartcar.service.impl.CarInfoServiceImpl"/>
-    <bean id="batteryService" class="com.smartcar.service.impl.BatteryServiceImpl"/>
--->
+    <bean id="batteryService" class="com.smartcar.service.impl.BatteryServiceImpl"/>-->
     <!-- 配置事务管理 -->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate4.HibernateTransactionManager">

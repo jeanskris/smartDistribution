@@ -27,7 +27,7 @@ public class TCPServerHandler extends IoHandlerAdapter {
             buffer.setAutoExpand(true);
             byte[] bytes = new byte[buffer.limit()];
             buffer.get(bytes);
-            if(bytes[0]==0x30) {
+            if(bytes[2]==0x30) {
                 carInfoService.updatePower(bytes);//调用service业务处理
             }
         }

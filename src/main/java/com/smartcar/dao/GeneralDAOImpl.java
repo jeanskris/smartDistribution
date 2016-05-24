@@ -1,6 +1,8 @@
 package com.smartcar.dao;
 
 import com.smartcar.dao.interfaces.IGeneralDAO;
+import com.smartcar.utils.Log;
+import org.apache.log4j.Logger;
 import org.hibernate.FlushMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,10 +31,18 @@ public class GeneralDAOImpl implements IGeneralDAO {
     @Autowired@Qualifier("hibernateTemplate")
     HibernateTemplate hibernateTemplate;
 
-
+    private static final Logger logger=Logger.getLogger(GeneralDAOImpl.class);
     public <T> T findById(Class<T> type, Serializable id) {
-        System.out.println("hibernate "+hibernateTemplate);
-        return hibernateTemplate.get(type, id);
+        System.out.println("generalDao　findById ");
+        T t=null;
+        try {
+            t=hibernateTemplate.get(type, id);
+            logger.info("generalDao　findById");
+        }catch (Exception e){
+            logger.error("generalDao can not findById",e);
+            System.out.println("generalDao can not findById ");
+        }
+        return t;
     }
 
     public <T> List<T> findAll(Class<T> type) {

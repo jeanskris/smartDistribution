@@ -513,7 +513,7 @@
               <div style="width: 50%" class="bar"></div>
             </div>
             <div class="profit-line">
-              <span class="entypo-down-circled"></span>&#160;还可承重 ：15kg</div>
+              <span class="entypo-down-circled"></span>&#160;还可承重 ：25kg</div>
           </div>
         </div>
       </div>

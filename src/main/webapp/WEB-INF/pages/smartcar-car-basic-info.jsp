@@ -462,7 +462,10 @@
                     total_miles
                   </th>
                   <th>
-                    current location
+                    GpsLattude
+                  </th>
+                  <th>
+                    GpsLongitude
                   </th>
                   <th>
                     charge_times
@@ -485,7 +488,8 @@
                     <td>${carBasicInfoJson.getReleaseDate()} </td>
                     <td>${carBasicInfoJson.getLiscenceDate()} </td>
                     <td>${carBasicInfoJson.getTotalMiles()} </td>
-                    <td>${carBasicInfoJson.getCurrentLocation()}</td>
+                    <td>${carBasicInfoJson.getGpsLattude()}</td>
+                    <td>${carBasicInfoJson.getGpsLongitude()}</td>
                     <td>${carBasicInfoJson.getChargeTimes()} </td>
                     <td>${carBasicInfoJson.getPower()}</td>
                     <td>${carBasicInfoJson.getStatus()} </td>

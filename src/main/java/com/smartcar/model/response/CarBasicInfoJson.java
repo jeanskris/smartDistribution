@@ -19,11 +19,26 @@ public class CarBasicInfoJson {
     private Date liscenceDate;
     //car_info
     private Integer totalMiles;
-    private String currentLocation;
+    private Double gpsLongitude;
+    private Double gpsLattude;
     private Integer chargeTimes;
     private Float power;
     private Byte status;
 
+    public Double getGpsLongitude() {
+        return gpsLongitude;
+    }
+
+    public void setGpsLongitude(Double gpsLongitude) {
+        this.gpsLongitude = gpsLongitude;
+    }
+    public Double getGpsLattude() {
+        return gpsLattude;
+    }
+
+    public void setGpsLattude(Double gpsLattude) {
+        this.gpsLattude = gpsLattude;
+    }
 
     public int getCarId() {
         return carId;
@@ -74,14 +89,14 @@ public class CarBasicInfoJson {
         this.totalMiles = totalMiles;
     }
 
-    public String getCurrentLocation() {
+   /* public String getCurrentLocation() {
         return currentLocation;
     }
 
     public void setCurrentLocation(String currentLocation) {
         this.currentLocation = currentLocation;
     }
-
+*/
     public Integer getChargeTimes() {
         return chargeTimes;
     }

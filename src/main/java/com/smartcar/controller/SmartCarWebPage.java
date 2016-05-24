@@ -53,14 +53,17 @@ public class SmartCarWebPage {
             List<CarInfo> carInfoList=carInfoService.findByProperty("carId",car.getCarId());
             CarInfo carInfo=carInfoList.get(carInfoList.size()-1);//获取最新记录
             CarBasicInfoJson carBasicInfoJson = new CarBasicInfoJson();
+            carBasicInfoJson.setCarId(car.getCarId());
             carBasicInfoJson.setBaterryId(car.getBaterryId());
             carBasicInfoJson.setVin(car.getVin());
             carBasicInfoJson.setReleaseDate(car.getReleaseDate());
             carBasicInfoJson.setLiscenceDate(car.getLiscenceDate());
             carBasicInfoJson.setTotalMiles(carInfo.getTotalMiles());
             carBasicInfoJson.setChargeTimes(carInfo.getChargeTimes());
-            carBasicInfoJson.setCurrentLocation(carInfo.getGpsLattude() + "," + carInfo.getGpsLongitude());
+//            carBasicInfoJson.setCurrentLocation(carInfo.getGpsLattude() + "," + carInfo.getGpsLongitude());
             carBasicInfoJson.setPower(carInfo.getPower());
+            carBasicInfoJson.setGpsLattude(carInfo.getGpsLattude());
+            carBasicInfoJson.setGpsLongitude(carInfo.getGpsLongitude());
             carBasicInfoJson.setStatus(carInfo.getStatus());
             listCarBasicInfoJson.add(carBasicInfoJson);
             //
